@@ -7,9 +7,17 @@ const IdeaRoutes = express.Router()
 // @route           GET /api/ideas
 // @description     Get all ideas
 // @access          Public
+// @query           _limit (optional limit for ideas return)
 IdeaRoutes.get('/', async (req, res, next) => {
   try {
-    const ideas = await Idea.find()
+    const limit = parseInt(req.query._limit)
+    const query = Idea.find().sort({ createdAt: -1 })
+
+    if (!isNaN(limit)) {
+      query.limit(limit)
+    }
+
+    const ideas = await query.exec()
     return res.json(ideas)
   } catch (err) {
     console.log(err)
