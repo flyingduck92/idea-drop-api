@@ -3,10 +3,15 @@ import cors from 'cors'
 import dotenv from 'dotenv'
 import mainApiRoutes from './routes/index.js'
 import { errorHandler } from './middleware/errorHandler.js'
+import connectDB from './config/db.js'
 
 dotenv.config()
 
 const app = express()
+
+// connect to Mongodb
+connectDB()
+
 app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
