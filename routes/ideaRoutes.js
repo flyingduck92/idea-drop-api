@@ -2,13 +2,13 @@ import express from 'express'
 import mongoose from 'mongoose'
 import Idea from '../models/Idea.js'
 
-const IdeaRoutes = express.Router()
+const ideaRoutes = express.Router()
 
 // @route           GET /api/ideas
 // @description     Get all ideas
 // @access          Public
 // @query           _limit (optional limit for ideas return)
-IdeaRoutes.get('/', async (req, res, next) => {
+ideaRoutes.get('/', async (req, res, next) => {
   try {
     const limit = parseInt(req.query._limit)
     const query = Idea.find().sort({ createdAt: -1 })
@@ -28,7 +28,7 @@ IdeaRoutes.get('/', async (req, res, next) => {
 // @route           GET /api/ideas/:id
 // @description     Get a single idea
 // @access          Public
-IdeaRoutes.get('/:id', async (req, res, next) => {
+ideaRoutes.get('/:id', async (req, res, next) => {
   try {
     const { id } = req.params
 
@@ -52,7 +52,7 @@ IdeaRoutes.get('/:id', async (req, res, next) => {
 // @route           POST /api/ideas
 // @description     Create a brand new idea
 // @access          Public
-IdeaRoutes.post('/', async (req, res, next) => {
+ideaRoutes.post('/', async (req, res, next) => {
   try {
     const { title, summary, description, tags } = req.body
 
@@ -88,7 +88,7 @@ IdeaRoutes.post('/', async (req, res, next) => {
 // @route           DELETE /api/ideas/:id
 // @description     Delete a single idea
 // @access          Public
-IdeaRoutes.delete('/:id', async (req, res, next) => {
+ideaRoutes.delete('/:id', async (req, res, next) => {
   try {
     const { id } = req.params
 
@@ -112,7 +112,7 @@ IdeaRoutes.delete('/:id', async (req, res, next) => {
 // @route           PUT /api/ideas/:id
 // @description     Update an idea
 // @access          Public
-IdeaRoutes.put('/:id', async (req, res, next) => {
+ideaRoutes.put('/:id', async (req, res, next) => {
   try {
     const { id } = req.params
 
@@ -152,4 +152,4 @@ IdeaRoutes.put('/:id', async (req, res, next) => {
   }
 })
 
-export default IdeaRoutes
+export default ideaRoutes

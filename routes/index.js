@@ -1,9 +1,9 @@
 import express from 'express'
-import IdeaRoutes from './ideaRoutes.js'
+import ideaRoutes from './ideaRoutes.js'
 
 const mainApiRoutes = express.Router()
 const base = '/api'
 
-mainApiRoutes.use(`${base}/ideas`, IdeaRoutes)
+mainApiRoutes.use(`${base}/ideas`, ideaRoutes)
 
 export default mainApiRoutes
