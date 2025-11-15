@@ -1,6 +1,7 @@
 import express from 'express'
 import mongoose from 'mongoose'
 import Idea from '../models/Idea.js'
+import { logger } from '../utils/logger.js'
 
 const ideaRoutes = express.Router()
 
@@ -18,9 +19,10 @@ ideaRoutes.get('/', async (req, res, next) => {
     }
 
     const ideas = await query.exec()
+    logger.info({ count: ideas.length }, 'Ideas fetches')
     return res.json(ideas)
   } catch (err) {
-    console.log(err)
+    logger.error(err, 'Error fetching ideas')
     next(err)
   }
 })
@@ -42,9 +44,10 @@ ideaRoutes.get('/:id', async (req, res, next) => {
       res.status(404)
       throw new Error('Idea not found')
     }
+    logger.info({ ideaId: id }, 'Idea fetched')
     return res.json(idea)
   } catch (err) {
-    console.log(err)
+    logger.error(err, 'Error fetching idea')
     next(err)
   }
 })
@@ -77,10 +80,11 @@ ideaRoutes.post('/', async (req, res, next) => {
     })
 
     const saveIdea = await newIdea.save()
+    logger.info({ ideaId: saveIdea._id }, 'Idea created successfully')
 
     return res.status(201).json(saveIdea)
   } catch (err) {
-    console.log(err)
+    logger.error(err, 'Error creating idea')
     next(err)
   }
 })
@@ -102,9 +106,10 @@ ideaRoutes.delete('/:id', async (req, res, next) => {
       res.status(404)
       throw new Error('Idea not found')
     }
+    logger.info({ ideaId: id }, 'Idea deleted successfully')
     return res.json({ message: 'Idea deleted successfully' })
   } catch (err) {
-    console.log(err)
+    logger.error(err, 'Error deleting idea')
     next(err)
   }
 })
@@ -145,9 +150,10 @@ ideaRoutes.put('/:id', async (req, res, next) => {
       res.status(404)
       throw new Error('Idea not found')
     }
+    logger.info({ ideaId: id }, 'Idea updated successfully')
     return res.json(updatedIdea)
   } catch (err) {
-    console.log(err)
+    logger.error(err, 'Error deleting idea')
     next(err)
   }
 })

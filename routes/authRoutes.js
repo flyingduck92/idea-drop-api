@@ -1,5 +1,6 @@
 import express from 'express'
 import User from '../models/User.js'
+import { logger } from '../utils/logger.js'
 
 const authRoutes = express.Router()
 
@@ -22,6 +23,7 @@ authRoutes.post('/register', async (req, res, next) => {
     }
 
     const user = await User.create({ name, email, password })
+    logger.info({ userId: user._id }, 'User registered succesfully')
     return res.status(201).json({
       user: {
         id: user._id,
@@ -30,7 +32,7 @@ authRoutes.post('/register', async (req, res, next) => {
       },
     })
   } catch (err) {
-    console.log(err)
+    logger.error(err, 'Registratuin error')
     next(err)
   }
 })
