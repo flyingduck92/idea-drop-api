@@ -37,7 +37,7 @@ authRoutes.post('/register', async (req, res, next) => {
     res.cookie('refreshToken', refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'none',
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax', // dev means lax
       maxAge: 30 * 24 * 60 * 60 * 1000, // days * hours * minutes * seconds * miliseconds
     })
 
@@ -62,7 +62,7 @@ authRoutes.post('/logout', async (req, res) => {
   res.clearCookie('refreshToken', {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
-    sameSite: 'none',
+    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax', // dev means lax
   })
 
   logger.info('Logout succesfully')
@@ -98,11 +98,11 @@ authRoutes.post('/login', async (req, res, next) => {
       const accessToken = await generateToken(payload, '1m')
       const refreshToken = await generateToken(payload, '30d')
 
-      // set refresh token in http-only cookie
+      // set refreshToken in http-only cookie
       res.cookie('refreshToken', refreshToken, {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
-        sameSite: 'none',
+        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax', // dev means lax
         maxAge: 30 * 24 * 60 * 60 * 1000, // days * hours * minutes * seconds * miliseconds
       })
 
