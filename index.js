@@ -16,7 +16,10 @@ const app = express()
 connectDB()
 
 // CORS config
-const allowedOrigins = ['http://localhost:3000']
+const allowedOrigins = [
+  'http://localhost:3000',
+  'https://idea-drop-ui-bice.vercel.app',
+]
 
 app.use(
   cors({
